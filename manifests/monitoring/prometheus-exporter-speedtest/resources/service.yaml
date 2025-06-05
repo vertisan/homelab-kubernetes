@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: prometheus-exporter-speedtest
+  labels:
+    app: prometheus-exporter-speedtest
+spec:
+  selector:
+    app: prometheus-exporter-speedtest
+  ports:
+  - name: http
+    port: 9090

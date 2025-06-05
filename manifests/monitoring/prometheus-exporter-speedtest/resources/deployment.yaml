@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-exporter-speedtest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus-exporter-speedtest
+  template:
+    metadata:
+      labels:
+        app: prometheus-exporter-speedtest
+    spec:
+      containers:
+        - name: prometheus-exporter-speedtest
+          image: ghcr.io/slapshin/speedtest_exporter:latest
+          resources:
+            limits:
+              cpu: 50m
+              memory: 256Mi
+          ports:
+            - name: http
+              containerPort: 9090
