@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: ext-jellyfin
+  labels:
+    app: jellyfin
+subsets:
+  - addresses:
+      - ip: 10.0.31.33
+    ports:
+      - name: metrics
+        port: 9100
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-jellyfin
+  labels:
+    app: jellyfin
+spec:
+  ports:
+    - name: metrics
+      port: 9100
+      targetPort: metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ext-jellyfin
+  labels:
+    prometheus.io/monitor: "true"
+spec:
+  endpoints:
+    - port: metrics
+  namespaceSelector:
+    matchNames:
+      - prometheus-exporter
+  selector:
+    matchLabels:
+      app: jellyfin

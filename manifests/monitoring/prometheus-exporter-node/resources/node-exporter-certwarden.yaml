@@ -1,0 +1,41 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: ext-certwarden
+  labels:
+    app: certwarden
+subsets:
+  - addresses:
+      - ip: 10.0.31.34
+    ports:
+      - name: metrics
+        port: 9100
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-certwarden
+  labels:
+    app: certwarden
+spec:
+  ports:
+    - name: metrics
+      port: 9100
+      targetPort: metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ext-certwarden
+  labels:
+    prometheus.io/monitor: "true"
+spec:
+  endpoints:
+    - port: metrics
+  namespaceSelector:
+    matchNames:
+      - prometheus-exporter
+  selector:
+    matchLabels:
+      app: certwarden
