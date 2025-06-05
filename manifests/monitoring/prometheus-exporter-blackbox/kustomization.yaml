@@ -1,0 +1,12 @@
+namespace: &namespace prometheus-exporter
+
+helmCharts:
+  - name: prometheus-blackbox-exporter
+    repo: https://prometheus-community.github.io/helm-charts
+    version: 10.1.0 # https://github.com/prometheus-community/helm-charts/releases?q=%22prometheus-blackbox-exporter%22&expanded=true
+    releaseName: prometheus-exporter-blackbox
+    namespace: *namespace
+    valuesFile: values.yaml
+    includeCRDs: true
+    apiVersions:
+      - policy/v1/PodDisruptionBudget

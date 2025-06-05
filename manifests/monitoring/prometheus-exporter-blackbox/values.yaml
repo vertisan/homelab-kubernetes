@@ -1,0 +1,82 @@
+replicas: 2
+
+fullnameOverride: prometheus-exporter-blackbox
+
+podDisruptionBudget:
+  maxUnavailable: 50%
+
+resources:
+  requests:
+    memory: 32Mi
+    cpu: 10m
+  limits:
+    memory: 48Mi
+    cpu: 15m
+
+secretConfig: true
+
+config:
+  modules:
+    http_2xx:
+      prober: http
+      timeout: 5s
+      http:
+        valid_http_versions: ["HTTP/1.1", "HTTP/2.0", "HTTP/3.0"]
+        follow_redirects: true
+        preferred_ip_protocol: "ip4"
+        fail_if_ssl: false
+        fail_if_not_ssl: false
+        tls_config:
+          insecure_skip_verify: false
+
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: DoNotSchedule
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: prometheus-blackbox-exporter
+
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        preference:
+          matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: prometheus-blackbox-exporter
+          topologyKey: kubernetes.io/hostname
+
+serviceMonitor:
+  enabled: true
+  defaults:
+    labels:
+      prometheus.io/monitor: "true"
+  targets:
+    - name: vrs-factory
+      url: https://vrs-factory.dev
+    - name: vrs-factory-pl
+      url: https://vrs-factory.pl
+    - name: helm-vrs-factory
+      url: https://helm.vrs-factory.dev/index.yaml
+    - name: homelab-argocd
+      url: https://argocd.vrsf.in
+    - name: homelab-grafana
+      url: https://grafana.vrsf.in
+    - name: homelab-prometheus
+      url: https://prometheus.vrsf.in
+    - name: homelab-pve-alpha
+      url: https://alpha.pve.vrsf.in:8006
+    - name: homelab-pve-beta
+      url: https://beta.pve.vrsf.in:8006
+    # - name: homelab-pve-charlie
+    #   url: https://charlie.pve.vrsf.in:8006
+    - name: homelab-pve-tango
+      url: https://tango.pve.vrsf.in:8006
