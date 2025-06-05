@@ -1,0 +1,17 @@
+resources:
+  - resources/namespace.yaml
+  - resources/vso.yaml
+  - resources/vso-secrets.yaml
+
+namespace: &namespace traefik-system
+
+helmCharts:
+  - name: traefik
+    repo: https://traefik.github.io/charts
+    version: 35.4.0
+    releaseName: traefik
+    namespace: *namespace
+    valuesFile: values.yaml
+    includeCRDs: true
+    apiVersions:
+      - monitoring.coreos.com/v1
