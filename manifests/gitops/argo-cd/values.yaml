@@ -42,17 +42,17 @@ configs:
       secrets+age-import, secrets+age-import-kubernetes,
       secrets,secrets+literal,
       http,https
-    # oidc.config: |
-    #   name: VRS-Factory
-    #   issuer: https://id.vrs-factory.dev
-    #   clientID: $oidc.clientId
-    #   clientSecret: $oidc.clientSecret
-    #   requestedScopes:
-    #     - openid
-    #     - profile
-    #     - email
-    #     - groups
-    #   logoutURL: https://id.vrs-factory.dev/oidc/v1/end_session
+    oidc.config: |
+      name: VRS-Factory
+      issuer: https://id.vrs-factory.dev
+      clientID: $oidc.clientId
+      clientSecret: $oidc.clientSecret
+      requestedScopes:
+        - openid
+        - profile
+        - email
+        - groups
+      logoutURL: https://id.vrs-factory.dev/api/oidc/end-session
 
   rbac:
     policy.csv: |
@@ -92,14 +92,6 @@ repoServer:
 
 server:
   metrics: *metricsMonitor
-  # ingress:
-  #   enabled: true
-  #   ingressClassName: nginx
-  #   annotations:
-  #     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-  #     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-  #     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-  #   tls: true
   pdb:
     enabled: true
     maxUnavailable: 50%
