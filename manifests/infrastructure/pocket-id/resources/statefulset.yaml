@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pocket-id
+  labels:
+    app.kubernetes.io/instance: pocket-id
+    app.kubernetes.io/name: pocket-id
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: pocket-id
+      app.kubernetes.io/name: pocket-id
+  serviceName: pocket-id
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: pocket-id
+        app.kubernetes.io/name: pocket-id
+    spec:
+      resources:
+        requests:
+          cpus: 5m
+          memory: 32Mi
+        limits:
+          cpus: 20m
+          memory: 256Mi
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
+      topologySpreadConstraints:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: pocket-id
+              app.kubernetes.io/instance: pocket-id
+          topologyKey: topology.kubernetes.io/zone
+          maxSkew: 1
+          whenUnsatisfiable: ScheduleAnyway
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: pocket-id
+              app.kubernetes.io/instance: pocket-id
+          maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+              weight: 100
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: pocket-id
+                    app.kubernetes.io/instance: pocket-id
+                topologyKey: kubernetes.io/hostname
+              weight: 100
+      containers:
+        - envFrom:
+            - secretRef:
+                name: config-app
+            - secretRef:
+                name: config-smtp
+            - secretRef:
+                name: config-ldap
+            - configMapRef:
+                name: pocket-id
+          image: ghcr.io/pocket-id/pocket-id:v1.2.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          name: pocket-id
+          ports:
+            - containerPort: 1411
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 60
+          resources: {}
+          securityContext: {}
+          volumeMounts:
+            - mountPath: /app/data
+              name: pocket-id-data
+      serviceAccountName: pocket-id
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      partition: 0
+  volumeClaimTemplates:
+    - metadata:
+        labels:
+          app.kubernetes.io/instance: pocket-id
+          app.kubernetes.io/name: pocket-id
+        name: pocket-id-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: csi-nfs-retain
