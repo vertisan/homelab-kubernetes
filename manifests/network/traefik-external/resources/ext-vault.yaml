@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: ext-vault
+subsets:
+  - addresses:
+      - ip: 10.0.100.5
+    ports:
+      - name: https
+        port: 8200
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-vault
+spec:
+  ports:
+    - name: https
+      port: 443
+      targetPort: 8200
+---
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: vault-transport
+spec:
+  insecureSkipVerify: true
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ext-vault
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`vlt.n.vrsf.in`)
+      kind: Rule
+      services:
+        - name: ext-vault
+          namespace: traefik-external
+          port: 443
+          serversTransport: vault-transport
+  tls:
+    certResolver: letsencrypt

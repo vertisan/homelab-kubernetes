@@ -1,0 +1,21 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: csi-nfs
+  namespace: &ns argo-system
+spec:
+  project: default
+  source:
+    repoURL: git@gitlab.com:vrs-factory/homelab/k8s-crimson.git
+    targetRevision: master
+    path: manifests/storage/csi-nfs
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: *ns
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

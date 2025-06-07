@@ -1,0 +1,105 @@
+deployment:
+  replicas: 2
+  initContainers:
+    - name: volume-permissions
+      image: busybox:latest
+      command: ["sh", "-c", "touch /data/acme.json; chmod -v 600 /data/acme.json"]
+      volumeMounts:
+      - mountPath: /data
+        name: data
+
+# resource mapping not found for name: "traefik" namespace: "traefik-system" from "STDIN": no matches for kind "PodDisruptionBudget" in version "policy/v1beta1"
+# ---
+# podDisruptionBudget:
+#   enabled: true
+#   maxUnavailable: 50%
+
+ingressClass:
+  enabled: true
+  name: traefik
+
+ingressRoute:
+  dashboard:
+    enabled: true
+    entryPoints:
+      - websecure
+    matchRule: Host(`traefik.n.vrsf.in`)
+    tls:
+      certResolver: letsencrypt
+
+ports:
+  web:
+    redirections:
+      entryPoint:
+        to: websecure
+        scheme: https
+        permanent: true
+
+metrics:
+  prometheus:
+    service:
+      enabled: true
+
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        prometheus.io/monitor: "true"
+
+service:
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 10.0.110.5
+
+resources:
+  requests:
+    cpu: 20m
+    memory: 128Mi
+  limits:
+    cpu: 100m
+    memory: 512Mi
+
+topologySpreadConstraints:
+  - labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: '{{ template "traefik.name" . }}'
+    topologyKey: topology.kubernetes.io/zone
+    maxSkew: 1
+    whenUnsatisfiable: ScheduleAnyway
+  - labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: '{{ template "traefik.name" . }}'
+    maxSkew: 1
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: DoNotSchedule
+
+providers:
+  kubernetesCRD:
+    ingressClass: traefik
+    allowCrossNamespace: true
+  kubernetesIngress:
+    ingressClass: traefik
+
+logs:
+  general:
+    level: DEBUG
+
+persistence:
+  enabled: true
+  storageClass: csi-nfs
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      dnsChallenge:
+        provider: cloudflare
+      storage: /data/acme.json
+
+env:
+  - name: CF_DNS_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: cloudflare-token
+        key: value
+
+podSecurityContext:
+  fsGroup: 65532
+  fsGroupChangePolicy: OnRootMismatch

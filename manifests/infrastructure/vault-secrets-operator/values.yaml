@@ -1,0 +1,46 @@
+controller:
+  replicas: 2
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: vault-secrets-operator
+              app.kubernetes.io/instance: vault-secrets-operator
+          topologyKey: kubernetes.io/hostname
+
+  manager:
+    resources:
+      requests:
+        cpu: 5m
+        memory: 32Mi
+      limits:
+        cpu: 20m
+        memory: 64Mi
+
+  kubeRbacProxy:
+    resources:
+      requests:
+        cpu: 5m
+        memory: 24Mi
+      limits:
+        cpu: 20m
+        memory: 48Mi
+
+defaultVaultConnection:
+  enabled: true
+  address: "https://10.0.100.5:8200"
+  skipTLSVerify: true
+
+telemetry:
+  serviceMonitor:
+    enabled: true
+    selectors:
+      prometheus.io/monitor: "true"

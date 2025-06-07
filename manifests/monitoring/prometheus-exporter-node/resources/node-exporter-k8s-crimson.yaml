@@ -1,0 +1,43 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: ext-k8s-crimson
+  labels:
+    app: k8s-crimson
+subsets:
+  - addresses:
+      - ip: 10.0.110.10
+      - ip: 10.0.110.11
+      - ip: 10.0.110.12
+    ports:
+      - name: metrics
+        port: 9100
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-k8s-crimson
+  labels:
+    app: k8s-crimson
+spec:
+  ports:
+    - name: metrics
+      port: 9100
+      targetPort: metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ext-k8s-crimson
+  labels:
+    prometheus.io/monitor: "true"
+spec:
+  endpoints:
+    - port: metrics
+  namespaceSelector:
+    matchNames:
+      - prometheus-exporter
+  selector:
+    matchLabels:
+      app: k8s-crimson

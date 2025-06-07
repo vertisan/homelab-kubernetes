@@ -1,0 +1,9 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: prometheus-exporter-speedtest
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: prometheus-exporter-speedtest

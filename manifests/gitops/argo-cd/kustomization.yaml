@@ -1,0 +1,18 @@
+namespace: &ns argo-system
+
+resources:
+  - resources/namespace.yaml
+  - resources/ingress-route.yaml
+  - resources/vso.yaml
+  - resources/vso-secrets.yaml
+
+helmCharts:
+  - name: argo-cd
+    releaseName: argo-cd
+    repo: https://argoproj.github.io/argo-helm
+    version: 8.0.15 # https://artifacthub.io/packages/helm/argo/argo-cd?modal=changelog
+    namespace: *ns
+    valuesFile: values.yaml
+    includeCRDs: true
+    apiVersions:
+      - monitoring.coreos.com/v1

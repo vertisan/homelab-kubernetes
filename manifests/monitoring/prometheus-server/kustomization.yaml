@@ -1,0 +1,14 @@
+resources:
+  - resources/namespace.yaml
+  - resources/ingress-route.yaml
+
+namespace: &namespace prometheus
+
+helmCharts:
+  - name: kube-prometheus-stack
+    repo: https://prometheus-community.github.io/helm-charts
+    version: 72.9.0 # https://github.com/prometheus-community/helm-charts/releases
+    releaseName: prometheus
+    namespace: *namespace
+    valuesFile: values.yaml
+    includeCRDs: true
