@@ -3,10 +3,11 @@ deployment:
   initContainers:
     - name: volume-permissions
       image: busybox:latest
-      command: ["sh", "-c", "touch /data/acme.json; chmod -v 600 /data/acme.json"]
+      command:
+        ["sh", "-c", "touch /data/acme.json; chmod -v 600 /data/acme.json"]
       volumeMounts:
-      - mountPath: /data
-        name: data
+        - mountPath: /data
+          name: data
 
 # resource mapping not found for name: "traefik" namespace: "traefik-system" from "STDIN": no matches for kind "PodDisruptionBudget" in version "policy/v1beta1"
 # ---
@@ -23,7 +24,7 @@ ingressRoute:
     enabled: true
     entryPoints:
       - websecure
-    matchRule: Host(`traefik.n.vrsf.in`)
+    matchRule: Host(`traefik.vrsf.in`)
     tls:
       certResolver: letsencrypt
 

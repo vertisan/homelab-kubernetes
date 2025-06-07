@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`grafana.n.vrsf.in`)
+    - match: Host(`grafana.vrsf.in`)
       kind: Rule
       services:
         - name: grafana

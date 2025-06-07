@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`prometheus.n.vrsf.in`)
+    - match: Host(`prometheus.vrsf.in`)
       kind: Rule
       services:
         - name: prometheus-kube-prometheus-prometheus

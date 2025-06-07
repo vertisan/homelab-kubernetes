@@ -37,7 +37,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`vlt.n.vrsf.in`)
+    - match: Host(`vlt.vrsf.in`)
       kind: Rule
       services:
         - name: ext-vault
