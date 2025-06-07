@@ -24,20 +24,6 @@ global:
                 operator: DoesNotExist
           weight: 100
 
-  topologySpreadConstraints:
-    - labelSelector:
-        matchLabels:
-          app.kubernetes.io/name: '{{ template "traefik.name" . }}'
-      topologyKey: topology.kubernetes.io/zone
-      maxSkew: 1
-      whenUnsatisfiable: ScheduleAnyway
-    - labelSelector:
-        matchLabels:
-          app.kubernetes.io/name: '{{ template "traefik.name" . }}'
-      maxSkew: 1
-      topologyKey: kubernetes.io/hostname
-      whenUnsatisfiable: DoNotSchedule
-
 crds:
   install: true
   keep: false
