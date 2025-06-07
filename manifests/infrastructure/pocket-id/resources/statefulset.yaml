@@ -18,13 +18,6 @@ spec:
         app.kubernetes.io/instance: pocket-id
         app.kubernetes.io/name: pocket-id
     spec:
-      resources:
-        requests:
-          cpus: 5m
-          memory: 32Mi
-        limits:
-          cpus: 20m
-          memory: 256Mi
       securityContext:
         fsGroup: 1000
         runAsUser: 1000
@@ -87,8 +80,13 @@ spec:
               path: /healthz
               port: http
             initialDelaySeconds: 60
-          resources: {}
-          securityContext: {}
+          resources:
+            requests:
+              cpu: 5m
+              memory: 32Mi
+            limits:
+              cpu: 20m
+              memory: 256Mi
           volumeMounts:
             - mountPath: /app/data
               name: pocket-id-data
@@ -96,7 +94,6 @@ spec:
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
-      maxUnavailable: 0
       partition: 0
   volumeClaimTemplates:
     - metadata:
