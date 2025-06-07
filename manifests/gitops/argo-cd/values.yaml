@@ -1,0 +1,111 @@
+global:
+  domain: argo.vrsf.in
+  revisionHistoryLimit: 10
+
+  image:
+    repository: vertisan/argocd
+    tag: 1.0.0-rc.0
+
+  # logging:
+  #   format: json
+
+  deploymentStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 0
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
+
+crds:
+  install: true
+  keep: false
+
+configs:
+  secret:
+    createSecret: false
+
+  params:
+    server.insecure: "true"
+
+  cm:
+    kustomize.buildOptions: "--enable-helm --enable-alpha-plugins --enable-exec"
+    users.anonymous.enabled: "false"
+    helm.valuesFileSchemes: >-
+      secrets+gpg-import, secrets+gpg-import-kubernetes,
+      secrets+age-import, secrets+age-import-kubernetes,
+      secrets,secrets+literal,
+      http,https
+    # oidc.config: |
+    #   name: VRS-Factory
+    #   issuer: https://id.vrs-factory.dev
+    #   clientID: $oidc.clientId
+    #   clientSecret: $oidc.clientSecret
+    #   requestedScopes:
+    #     - openid
+    #     - profile
+    #     - email
+    #     - groups
+    #   logoutURL: https://id.vrs-factory.dev/oidc/v1/end_session
+
+  rbac:
+    policy.csv: |
+      p, role:guest, applications, list, *, allow
+      p, role:guest, applications, get, *, allow
+      g, argocd_admin, role:admin
+      g, argocd_viewer, role:readonly
+      g, argocd_guest, role:guest
+
+controller:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 768Mi
+    limits:
+      cpu: 300m
+      memory: 2Gi
+  pdb:
+    maxUnavailable: 50%
+  metrics: &metricsMonitor
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      additionalLabels:
+        prometheus.io/monitor: "true"
+
+dex:
+  enabled: true
+  metrics: *metricsMonitor
+
+  pdb:
+    enabled: true
+    maxUnavailable: 50%
+
+repoServer:
+  metrics: *metricsMonitor
+
+server:
+  metrics: *metricsMonitor
+  # ingress:
+  #   enabled: true
+  #   ingressClassName: nginx
+  #   annotations:
+  #     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  #     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+  #     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  #   tls: true
+  pdb:
+    enabled: true
+    maxUnavailable: 50%
+
+redis:
+  metrics: *metricsMonitor
+
+applicationSet:
+  metrics: *metricsMonitor
