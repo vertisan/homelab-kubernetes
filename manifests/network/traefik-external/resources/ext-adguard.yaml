@@ -18,15 +18,8 @@ spec:
   ports:
     - name: https
       port: 443
-      # targetPort: 443
+      targetPort: 443
 ---
-# apiVersion: traefik.io/v1alpha1
-# kind: ServersTransport
-# metadata:
-#   name: vault-transport
-# spec:
-#   insecureSkipVerify: true
-# ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -43,5 +36,6 @@ spec:
         - name: ext-adguard
           namespace: traefik-external
           port: 443
+          serversTransport: insecure-skip-transport
   tls:
     certResolver: letsencrypt

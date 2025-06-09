@@ -1,5 +1,6 @@
 resources:
   - resources/namespace.yaml
+  - resources/common.yaml
   - resources/ext-adguard.yaml
   - resources/ext-vault.yaml
 

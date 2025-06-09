@@ -21,13 +21,6 @@ spec:
       targetPort: 8200
 ---
 apiVersion: traefik.io/v1alpha1
-kind: ServersTransport
-metadata:
-  name: vault-transport
-spec:
-  insecureSkipVerify: true
----
-apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: ext-vault
@@ -43,6 +36,6 @@ spec:
         - name: ext-vault
           namespace: traefik-external
           port: 443
-          serversTransport: vault-transport
+          serversTransport: insecure-skip-transport
   tls:
     certResolver: letsencrypt
