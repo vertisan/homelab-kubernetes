@@ -62,12 +62,8 @@ serviceMonitor:
   targets:
     - name: vrs-factory
       url: https://vrs-factory.dev
-    - name: vrs-factory-pl
-      url: https://vrs-factory.pl
-    - name: helm-vrs-factory
-      url: https://helm.vrs-factory.dev/index.yaml
     - name: homelab-argocd
-      url: https://argocd.vrsf.in
+      url: https://argo.vrsf.in
     - name: homelab-grafana
       url: https://grafana.vrsf.in
     - name: homelab-prometheus
