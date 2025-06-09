@@ -38,6 +38,10 @@ ports:
 
 metrics:
   prometheus:
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
+
     service:
       enabled: true
 
