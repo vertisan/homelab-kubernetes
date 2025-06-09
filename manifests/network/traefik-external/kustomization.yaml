@@ -1,5 +1,6 @@
 resources:
   - resources/namespace.yaml
+  - resources/ext-adguard.yaml
   - resources/ext-vault.yaml
 
 namespace: traefik-external
