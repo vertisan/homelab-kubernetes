@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: opengist
+  labels:
+    app.kubernetes.io/name: opengist
+    app.kubernetes.io/instance: opengist
+spec:
+  selector:
+    app.kubernetes.io/name: opengist
+    app.kubernetes.io/instance: opengist
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP

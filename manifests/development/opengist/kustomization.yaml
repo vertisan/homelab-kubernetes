@@ -1,0 +1,12 @@
+resources:
+  - resources/namespace.yaml
+  - resources/config-map.yaml
+  - resources/deployment.yaml
+  - resources/ingress-route.yaml
+  - resources/pvc.yaml
+  - resources/service-account.yaml
+  - resources/service.yaml
+  - resources/vso-secrets.yaml
+  - resources/vso.yaml
+
+namespace: opengist

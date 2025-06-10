@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opengist-config
+  labels:
+    app.kubernetes.io/name: opengist
+    app.kubernetes.io/instance: opengist
+data:
+  # https://opengist.io/docs/configuration/cheat-sheet.html
+
+  OG_LOG_LEVEL: info
+  OG_EXTERNAL_URL: https://gist.vrsf.in
+  OG_INDEX: ""
+  OG_METRICS_ENABLED: "false"
+  OG_SSH_GIT_ENABLED: "false"

@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opengist
+  labels:
+    app.kubernetes.io/name: opengist
+    app.kubernetes.io/instance: opengist
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: opengist
+      app.kubernetes.io/instance: opengist
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: opengist
+        app.kubernetes.io/instance: opengist
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 0 # WTF?!
+        runAsGroup: 0 # WTF?!
+      serviceAccountName: opengist
+      containers:
+        - name: opengist
+          image: ghcr.io/thomiceli/opengist:1.9
+          resources:
+            requests:
+              memory: 32Mi
+              cpu: 10m
+            limits:
+              memory: 64Mi
+              cpu: 15m
+          ports:
+            - name: http
+              containerPort: 6157
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: http
+          volumeMounts:
+            - name: opengist-data
+              mountPath: /opengist
+          envFrom:
+            - configMapRef:
+                name: opengist-config
+            - secretRef:
+                name: opengist-secrets
+      volumes:
+        - name: opengist-data
+          persistentVolumeClaim:
+            claimName: opengist-data
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: gist
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: gist
+                topologyKey: kubernetes.io/hostname
