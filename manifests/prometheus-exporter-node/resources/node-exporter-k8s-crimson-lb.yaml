@@ -12,6 +12,8 @@ subsets:
     ports:
       - name: metrics
         port: 9100
+      - name: metrics-haproxy
+        port: 8404
 ---
 apiVersion: v1
 kind: Service
@@ -24,6 +26,9 @@ spec:
     - name: metrics
       port: 9100
       targetPort: metrics
+    - name: metrics-haproxy
+      port: 8404
+      targetPort: metrics-haproxy
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -34,6 +39,7 @@ metadata:
 spec:
   endpoints:
     - port: metrics
+    - port: metrics-haproxy
   namespaceSelector:
     matchNames:
       - prometheus-exporter
