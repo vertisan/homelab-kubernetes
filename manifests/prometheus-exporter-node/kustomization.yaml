@@ -1,10 +1,12 @@
 resources:
+  - resources/node-exporter-adguard.yaml
   - resources/node-exporter-certwarden.yaml
   - resources/node-exporter-ha.yaml
   - resources/node-exporter-jellyfin.yaml
   - resources/node-exporter-k8s-crimson.yaml
+  - resources/node-exporter-k8s-crimson-lb.yaml
   - resources/node-exporter-postgresql.yaml
-  - resources/node-exporter-tailscale.yaml
+  - resources/node-exporter-unifi.yaml
   - resources/node-exporter-vault.yaml
 
 namespace: prometheus-exporter
