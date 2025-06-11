@@ -1,0 +1,12 @@
+prometheus:
+  monitor:
+    enabled: true
+    additionalLabels:
+      prometheus.io/monitor: "true"
+# resources:
+# limits:
+#  cpu: 100m
+#  memory: 64Mi
+# requests:
+#  cpu: 10m
+#  memory: 32Mi
