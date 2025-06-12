@@ -16,7 +16,7 @@ prometheus:
     resources:
       requests:
         cpu: 100m
-        memory: 2048Mi
+        memory: 1024Mi
       limits:
         cpu: 150m
         memory: 3072Mi
@@ -65,7 +65,31 @@ prometheus:
       matchLabels:
         prometheus.io/monitor: "true"
 
+    overrideHonorLabels: true
+
+prometheusOperator:
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - preference:
+            matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+          weight: 100
+
+kubeStateMetrics:
+  honorLabels: true
+
 kube-state-metrics:
+  honorLabels: true
+
+  prometheus:
+    monitor:
+      metrics:
+        honorLabels: true
+      http:
+        honorLabels: true
+
   metricLabelsAllowlist:
     - nodes=[*]
     - namespaces=[*]
