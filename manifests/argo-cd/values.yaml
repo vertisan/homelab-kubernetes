@@ -69,7 +69,7 @@ controller:
       cpu: 50m
       memory: 768Mi
     limits:
-      cpu: 100m
+      cpu: 200m
       memory: 1536Mi # 1,5GB
   pdb:
     maxUnavailable: 50%
@@ -82,30 +82,25 @@ controller:
 
 dex:
   enabled: false
-  # metrics: *metricsMonitor
-
-  # pdb:
-  #   enabled: false
-  #   minAvailable: 1
-
-  # resources:
-  #   requests:
-  #     cpu: 10m
-  #     memory: 64Mi
-  #   limits:
-  #     cpu: 10m
-  #     memory: 128Mi
 
 repoServer:
   metrics: *metricsMonitor
 
   resources:
     requests:
-      cpu: 10m
+      cpu: 50m
       memory: 256Mi
     limits:
-      cpu: 10m
+      cpu: 150m
       memory: 512Mi
+
+  affinity: *affinity
+
+  autoscaling:
+    enabled: true
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
 
 server:
   metrics: *metricsMonitor
