@@ -16,9 +16,20 @@ spec:
         - name: prometheus-exporter-speedtest
           image: ghcr.io/slapshin/speedtest_exporter:latest
           resources:
+            requests:
+              cpu: 5m
+              memory: 32Mi
             limits:
-              cpu: 50m
-              memory: 256Mi
+              cpu: 15m
+              memory: 128Mi
           ports:
             - name: http
               containerPort: 9090
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+              weight: 100
