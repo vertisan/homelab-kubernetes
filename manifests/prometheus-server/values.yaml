@@ -41,6 +41,15 @@ prometheus:
             app.kubernetes.io/name: prometheus
             app.kubernetes.io/instance: prometheus-kube-prometheus-prometheus
 
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: DoesNotExist
+            weight: 100
+
     alertingEndpoints:
       - apiVersion: v2
         name: alertmanager
