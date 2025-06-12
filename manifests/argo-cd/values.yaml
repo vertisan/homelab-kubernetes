@@ -15,7 +15,7 @@ global:
       maxSurge: 25%
       maxUnavailable: 0
 
-  affinity:
+  affinity: &affinity
     nodeAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
         - preference:
@@ -66,11 +66,11 @@ configs:
 controller:
   resources:
     requests:
-      cpu: 100m
+      cpu: 50m
       memory: 768Mi
     limits:
-      cpu: 300m
-      memory: 2Gi
+      cpu: 100m
+      memory: 1536Mi # 1,5GB
   pdb:
     maxUnavailable: 50%
   metrics: &metricsMonitor
@@ -81,24 +81,69 @@ controller:
         prometheus.io/monitor: "true"
 
 dex:
-  enabled: true
-  metrics: *metricsMonitor
+  enabled: false
+  # metrics: *metricsMonitor
 
-  pdb:
-    enabled: true
-    maxUnavailable: 50%
+  # pdb:
+  #   enabled: false
+  #   minAvailable: 1
+
+  # resources:
+  #   requests:
+  #     cpu: 10m
+  #     memory: 64Mi
+  #   limits:
+  #     cpu: 10m
+  #     memory: 128Mi
 
 repoServer:
   metrics: *metricsMonitor
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 256Mi
+    limits:
+      cpu: 10m
+      memory: 512Mi
 
 server:
   metrics: *metricsMonitor
   pdb:
     enabled: true
-    maxUnavailable: 50%
+    minAvailable: 1
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 128Mi
+    limits:
+      cpu: 10m
+      memory: 256Mi
+
+  affinity: *affinity
 
 redis:
   metrics: *metricsMonitor
 
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 10m
+      memory: 128Mi
+
 applicationSet:
   metrics: *metricsMonitor
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      cpu: 10m
+      memory: 128Mi
+
+notifications:
+  enabled: false
