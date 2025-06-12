@@ -1,0 +1,8 @@
+namespace: cloudflare
+
+resources:
+  - resources/namespace.yaml
+  - resources/deployment.yaml
+  - resources/pod-disruption-budget.yaml
+  - resources/vso.yaml
+  - resources/vso-secrets.yaml

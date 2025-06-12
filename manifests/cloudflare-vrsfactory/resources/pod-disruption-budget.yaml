@@ -1,0 +1,13 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: cloudflare-vrsfactory
+  labels:
+    app.kubernetes.io/name: cloudflare-tunnel-remote
+    app.kubernetes.io/instance: cloudflare-vrsfactory
+spec:
+  maxUnavailable: 50%
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cloudflare-tunnel-remote
+      app.kubernetes.io/instance: cloudflare-vrsfactory
