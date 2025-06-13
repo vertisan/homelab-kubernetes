@@ -1,0 +1,40 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: ext-certwarden
+subsets:
+  - addresses:
+      - ip: 10.0.31.34
+    ports:
+      - name: service
+        port: 4050
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-certwarden
+spec:
+  ports:
+    - name: service
+      port: 80
+      targetPort: 4050
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ext-certwarden
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`certwarden.vrsf.in`)
+      kind: Rule
+      services:
+        - name: ext-certwarden
+          namespace: traefik-external
+          port: 80
+  tls:
+    certResolver: letsencrypt
