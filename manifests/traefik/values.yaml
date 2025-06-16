@@ -35,6 +35,13 @@ ports:
         to: websecure
         scheme: https
         permanent: true
+  websecure:
+    tls:
+      certResolver: cloudflare
+      domains:
+        - main: "vrsf.in"
+          sans:
+            - "*.vrsf.in"
 
 metrics:
   prometheus:
@@ -75,6 +82,15 @@ topologySpreadConstraints:
     maxSkew: 1
     topologyKey: kubernetes.io/hostname
     whenUnsatisfiable: DoNotSchedule
+
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - preference:
+          matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+        weight: 100
 
 providers:
   kubernetesCRD:
