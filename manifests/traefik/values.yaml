@@ -1,5 +1,5 @@
 deployment:
-  replicas: 2
+  replicas: null
   initContainers:
     - name: volume-permissions
       image: busybox:latest
@@ -68,6 +68,24 @@ resources:
   limits:
     cpu: 100m
     memory: 512Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
 
 topologySpreadConstraints:
   - labelSelector:
