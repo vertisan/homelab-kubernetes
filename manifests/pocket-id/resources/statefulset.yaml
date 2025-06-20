@@ -64,7 +64,7 @@ spec:
                 name: config-ldap
             - configMapRef:
                 name: pocket-id
-          image: ghcr.io/pocket-id/pocket-id:v1.2.0
+          image: ghcr.io/pocket-id/pocket-id:v1.4.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
