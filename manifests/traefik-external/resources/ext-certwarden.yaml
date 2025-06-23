@@ -5,7 +5,7 @@ metadata:
   name: ext-certwarden
 subsets:
   - addresses:
-      - ip: 10.0.31.34
+      - ip: 10.0.103.10
     ports:
       - name: service
         port: 4050
