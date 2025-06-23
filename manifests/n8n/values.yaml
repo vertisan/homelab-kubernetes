@@ -1,0 +1,90 @@
+fullnameOverride: n8n
+
+log:
+  level: debug
+
+db:
+  type: postgresdb
+
+externalPostgresql:
+  database: n8n
+  host: 10.0.100.7
+  port: 54320
+  username: n8n
+  existingSecret: n8n-postgresql
+
+existingEncryptionKeySecret: n8n-encryption-key
+
+timezone: Europe/Warsaw
+
+main:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 150m
+      memory: 768Mi
+
+  livenessProbe:
+    initialDelaySeconds: 60
+
+  readinessProbe:
+    initialDelaySeconds: 60
+
+worker:
+  mode: queue
+  # count: 1
+
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 1
+
+  waitMainNodeReady:
+    enabled: true
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      cpu: 200m
+      memory: 1Gi
+
+redis:
+  enabled: true
+
+affinity: &affinity
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - preference:
+          matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+        weight: 100
+
+serviceMonitor:
+  enabled: true
+  labels:
+    prometheus.io/monitor: "true"
+
+webhook:
+  mode: queue
+  count: 1
+
+  url: https://webhook.n8n.vrsf.in
+
+  autoscaling:
+    enabled: false
+
+  waitMainNodeReady:
+    enabled: true
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 150m
+      memory: 256Mi
