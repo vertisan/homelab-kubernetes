@@ -108,6 +108,9 @@ server:
     enabled: true
     minAvailable: 1
 
+  extraArgs:
+    - --enable-gzip
+
   resources:
     requests:
       cpu: 10m
