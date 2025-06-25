@@ -1,0 +1,19 @@
+namespace: &namespace gitlab-runner
+
+resources:
+  - resources/namespace.yaml
+  - resources/service-monitor.yaml
+  - resources/vso-secrets.yaml
+  - resources/vso.yaml
+
+helmCharts:
+  - releaseName: gitlab-runner
+    repo: https://charts.gitlab.io
+    name: gitlab-runner
+    version: 0.78.0
+    namespace: *namespace
+    valuesFile: values.yaml
+    includeCRDs: true
+    apiVersions:
+      - monitoring.coreos.com/v1
+      - monitoring.coreos.com/v1/ServiceMonitor

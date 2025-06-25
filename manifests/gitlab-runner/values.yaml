@@ -1,0 +1,85 @@
+gitlabUrl: https://gitlab.com/
+
+rbac:
+  create: true
+
+replicas: 2
+
+metrics:
+  enabled: true
+
+  # Service Monitor is deployed from resources to match labels.
+
+service:
+  enabled: true
+
+readinessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+
+runners:
+  secret: gitlab-runner
+
+  cache:
+    secretName: s3access
+
+  config: |
+    [[runners]]
+      [runners.kubernetes]
+        namespace = "{{.Release.Namespace}}"
+        image = "ubuntu:24.04"
+        privileged = true
+
+        [[runners.kubernetes.volumes.host_path]]
+          name = "buildah"
+          mount_path = "/var/lib/containers/"
+          read_only = false
+
+        [runners.kubernetes.pod_labels]
+          "app" = "{{.Release.Name}}"
+
+        [runners.kubernetes.node_tolerations]
+          "node-role.kubernetes.io/control-plane" = "NoSchedule"
+
+      [runners.cache]
+        Type = "s3"
+        Shared = true
+        [runners.cache.s3]
+          ServerAddress = "s3.minio.vrsf.in"
+          BucketName = "gitlab-runners-cache"
+          BucketLocation = "vrs-central"
+          Insecure = false
+
+topologySpreadConstraints:
+  - maxSkew: 1
+    topologyKey: topology.kubernetes.io/zone
+    whenUnsatisfiable: ScheduleAnyway
+    labelSelector:
+      matchLabels:
+        app: gitlab-runners
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              app: gitlab-runners
+          topologyKey: kubernetes.io/hostname
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 75m
+  limits:
+    memory: 2048Mi
+    cpu: 500m
