@@ -6,16 +6,17 @@ metadata:
     app.kubernetes.io/instance: pocket-id
     app.kubernetes.io/name: pocket-id
 data:
-  ANALYTICS_DISABLED: "false"
+  ANALYTICS_DISABLED: "true"
   DB_PROVIDER: sqlite
+  DISABLE_ANIMATIONS: "true"
+  EMAIL_API_KEY_EXPIRATION_ENABLED: "true"
+  EMAIL_LOGIN_NOTIFICATION_ENABLED: "true"
   HOST: 0.0.0.0
   KEYS_PATH: data/keys
   PORT: "1411"
+  SESSION_DURATION: "480" # 8 hours
   TRUST_PROXY: "true"
   TZ: ETC/Warsaw
   UI_CONFIG_DISABLED: "true"
   UPDATE_CHECK_DISABLED: "true"
   UPLOAD_PATH: data/uploads
-  EMAIL_LOGIN_NOTIFICATION_ENABLED: "true"
-  EMAIL_API_KEY_EXPIRATION_ENABLED: "true"
-  SESSION_DURATION: "480" # 8 hours
