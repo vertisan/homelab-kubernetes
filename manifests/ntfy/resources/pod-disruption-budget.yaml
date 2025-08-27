@@ -1,0 +1,13 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: ntfy
+  labels:
+    app.kubernetes.io/name: ntfy
+    app.kubernetes.io/instance: ntfy
+spec:
+  maxUnavailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ntfy
+      app.kubernetes.io/instance: ntfy

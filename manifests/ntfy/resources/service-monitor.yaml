@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ntfy
+  labels:
+    app.kubernetes.io/name: ntfy
+    app.kubernetes.io/instance: ntfy
+    prometheus.io/monitor: "true"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ntfy
+      app.kubernetes.io/instance: ntfy
+  endpoints:
+    - port: metrics
+      path: /metrics
+  namespaceSelector:
+    matchNames:
+      - ntfy

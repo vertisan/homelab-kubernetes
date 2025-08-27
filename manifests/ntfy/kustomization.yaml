@@ -1,0 +1,13 @@
+resources:
+  - resources/namespace.yaml
+  - resources/deployment.yaml
+  - resources/ingress-route.yaml
+  - resources/persistent-volume-claim.yaml
+  - resources/pod-disruption-budget.yaml
+  - resources/service-account.yaml
+  - resources/service-monitor.yaml
+  - resources/service.yaml
+  - resources/vso.yaml
+  - resources/vso-secrets.yaml
+
+namespace: ntfy
