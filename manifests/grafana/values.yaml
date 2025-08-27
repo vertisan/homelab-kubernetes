@@ -1,14 +1,18 @@
+image:
+  repository: grafana/grafana-enterprise
+  tag: 12.2.0-17253726931-ubuntu
+
 podDisruptionBudget:
   maxUnavailable: 50%
   apiVersion: policy/v1
 
 resources:
   requests:
-    cpu: 20m
+    cpu: 100m
     memory: 192Mi
-  limits:
-    cpu: 50m
-    memory: 768Mi
+  # limits:
+  #   cpu: 200m
+  #   memory: 768Mi
 
 autoscaling:
   enabled: true
@@ -25,6 +29,9 @@ serviceMonitor:
 grafana.ini:
   server:
     root_url: https://grafana.vrsf.in
+  feature_toggles:
+    provisioning: true
+    kubernetesDashboards: true
 
 persistence:
   enabled: true
