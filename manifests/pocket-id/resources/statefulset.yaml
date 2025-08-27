@@ -84,9 +84,9 @@ spec:
             requests:
               cpu: 5m
               memory: 32Mi
-            limits:
-              cpu: 20m
-              memory: 256Mi
+            # limits:
+            #   cpu: 20m
+            #   memory: 256Mi
           volumeMounts:
             - mountPath: /app/data
               name: pocket-id-data
