@@ -68,9 +68,9 @@ controller:
     requests:
       cpu: 50m
       memory: 768Mi
-    # limits:
-    #   cpu: 200m
-    #   memory: 1536Mi # 1,5GB
+    limits:
+      cpu: 500m
+      memory: 1536Mi # 1,5GB
   pdb:
     maxUnavailable: 50%
   metrics: &metricsMonitor
@@ -88,17 +88,17 @@ repoServer:
 
   resources:
     requests:
-      cpu: 50m
+      cpu: 200m
       memory: 256Mi
-    # limits:
-    #   cpu: 150m
-    #   memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
 
   affinity: *affinity
 
   autoscaling:
     enabled: true
-    maxReplicas: 3
+    maxReplicas: 2
     targetCPUUtilizationPercentage: 80
     targetMemoryUtilizationPercentage: 80
 
@@ -115,9 +115,9 @@ server:
     requests:
       cpu: 30m
       memory: 128Mi
-    # limits:
-    #   cpu: 100m
-    #   memory: 256Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
 
   affinity: *affinity
 
@@ -128,9 +128,9 @@ redis:
     requests:
       cpu: 10m
       memory: 32Mi
-    # limits:
-    #   cpu: 10m
-    #   memory: 128Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
 
 applicationSet:
   metrics: *metricsMonitor
@@ -139,9 +139,9 @@ applicationSet:
     requests:
       cpu: 10m
       memory: 64Mi
-    # limits:
-    #   cpu: 10m
-    #   memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 128Mi
 
 notifications:
   enabled: false
