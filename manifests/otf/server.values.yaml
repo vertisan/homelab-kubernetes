@@ -1,0 +1,48 @@
+fullnameOverride: otf
+
+hostname: otf.vrsf.in
+
+database: postgres://10.0.100.7:54320/otf
+databaseUsernameFromSecret:
+  name: otf-postgresql
+  key: username
+databasePasswordFromSecret:
+  name: otf-postgresql
+  key: password
+
+secretFromSecret:
+  name: otf-config
+  key: secret
+
+oidc:
+  name: VRS-Factory
+  issuerURL: https://id.vrs-factory.dev
+  clientID: fa0496d6-c2aa-4234-8a01-b0325fc12c8c
+  usernameClaim: email
+  scopes:
+    - openid
+    - profile
+    - email
+    - groups
+  clientSecretFromSecret:
+    name: otf-oidc
+    key: client_secret
+
+siteAdmins:
+  - pawel@vrs-factory.dev
+
+serviceMonitor:
+  enabled: true
+  labels:
+    prometheus.io/monitor: "true"
+
+resources: {}
+
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - preference:
+          matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+        weight: 100

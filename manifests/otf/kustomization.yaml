@@ -1,0 +1,30 @@
+resources:
+  - resources/namespace.yaml
+  - resources/ingress-route.yaml
+  - resources/vso-secrets.yaml
+  - resources/vso.yaml
+
+namespace: &namespace otf
+
+helmCharts:
+  # Server
+  - name: otfd
+    repo: https://leg100.github.io/otf-charts
+    version: 0.3.20
+    releaseName: otf
+    namespace: *namespace
+    valuesFile: server.values.yaml
+    # includeCRDs: true
+    # apiVersions:
+    #   - monitoring.coreos.com/v1
+
+  # Server
+  # - name: otf-agent
+  #   repo: https://leg100.github.io/otf-charts
+  #   version: 0.1.17
+  #   releaseName: otf
+  #   namespace: *namespace
+  #   valuesFile: server.values.yaml
+  #   # includeCRDs: true
+  #   # apiVersions:
+  #   #   - monitoring.coreos.com/v1
