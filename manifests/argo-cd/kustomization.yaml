@@ -13,6 +13,8 @@ helmCharts:
     version: 8.0.15 # https://artifacthub.io/packages/helm/argo/argo-cd?modal=changelog
     namespace: *ns
     valuesFile: values.yaml
+    additionalValuesFiles:
+      - notifications.values.yaml
     includeCRDs: true
     apiVersions:
       - monitoring.coreos.com/v1

@@ -142,6 +142,3 @@ applicationSet:
     limits:
       cpu: 300m
       memory: 128Mi
-
-notifications:
-  enabled: false
