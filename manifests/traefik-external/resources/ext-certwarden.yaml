@@ -34,7 +34,6 @@ spec:
       kind: Rule
       services:
         - name: ext-certwarden
-          namespace: traefik-external
           port: 80
   tls:
     certResolver: letsencrypt
