@@ -7,7 +7,7 @@ subsets:
   - addresses:
       - ip: 10.0.103.10
     ports:
-      - name: service
+      - name: http
         port: 4050
 ---
 apiVersion: v1
@@ -16,7 +16,7 @@ metadata:
   name: ext-certwarden
 spec:
   ports:
-    - name: service
+    - name: http
       port: 80
       targetPort: 4050
 ---
