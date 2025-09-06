@@ -8,9 +8,10 @@ metadata:
 spec:
   endpoints:
     - port: metrics
+      path: /metrics
   namespaceSelector:
     matchNames:
-      - gitlab
+      - gitlab-runner
   selector:
     matchLabels:
       app: gitlab-runner

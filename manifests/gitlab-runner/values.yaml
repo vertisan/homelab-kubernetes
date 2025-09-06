@@ -40,8 +40,13 @@ runners:
         [runners.kubernetes.pod_labels]
           "app" = "{{.Release.Name}}"
 
-        [runners.kubernetes.node_tolerations]
-          "node-role.kubernetes.io/control-plane" = "NoSchedule"
+        [runners.kubernetes.affinity]
+          [runners.kubernetes.affinity.node_affinity]
+            [runners.kubernetes.affinity.node_affinity.required_during_scheduling_ignored_during_execution]
+              [[runners.kubernetes.affinity.node_affinity.required_during_scheduling_ignored_during_execution.node_selector_terms]]
+                [[runners.kubernetes.affinity.node_affinity.required_during_scheduling_ignored_during_execution.node_selector_terms.match_expressions]]
+                  key = "node-role.kubernetes.io/control-plane"
+                  operator = "DoesNotExist"
 
       [runners.cache]
         Type = "s3"
