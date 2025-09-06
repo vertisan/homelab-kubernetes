@@ -3,6 +3,7 @@ resources:
   - resources/common.yaml
   - resources/ext-adguard.yaml
   - resources/ext-certwarden.yaml
+  - resources/ext-consul.yaml
   - resources/ext-vault.yaml
 
 namespace: traefik-external
