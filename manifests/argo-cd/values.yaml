@@ -54,13 +54,6 @@ configs:
         - email
         - groups
       logoutURL: https://id.vrs-factory.dev/api/oidc/end-session
-  rbac:
-    policy.csv: |
-      p, role:guest, applications, list, *, allow
-      p, role:guest, applications, get, *, allow
-      g, argocd_admin, role:admin
-      g, argocd_viewer, role:readonly
-      g, argocd_guest, role:guest
     resource.exclusions: |
       ### Internal Kubernetes resources excluded reduce the number of watched events
       - apiGroups:
@@ -109,6 +102,13 @@ configs:
         - BackgroundScanReport
         - ClusterBackgroundScanReport
         - UpdateRequest
+  rbac:
+    policy.csv: |
+      p, role:guest, applications, list, *, allow
+      p, role:guest, applications, get, *, allow
+      g, argocd_admin, role:admin
+      g, argocd_viewer, role:readonly
+      g, argocd_guest, role:guest
 
 controller:
   resources:
