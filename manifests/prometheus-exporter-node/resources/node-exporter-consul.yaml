@@ -1,0 +1,43 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: ext-consul
+  labels:
+    app: consul
+subsets:
+  - addresses:
+      - ip: 10.0.102.10
+      - ip: 10.0.102.11
+      - ip: 10.0.102.12
+    ports:
+      - name: metrics
+        port: 9100
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-consul
+  labels:
+    app: consul
+spec:
+  ports:
+    - name: metrics
+      port: 9100
+      targetPort: metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ext-consul
+  labels:
+    prometheus.io/monitor: "true"
+spec:
+  endpoints:
+    - port: metrics
+  namespaceSelector:
+    matchNames:
+      - prometheus-exporter
+  selector:
+    matchLabels:
+      app: consul

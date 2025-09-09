@@ -1,6 +1,7 @@
 resources:
   - resources/node-exporter-adguard.yaml
   - resources/node-exporter-certwarden.yaml
+  - resources/node-exporter-consul.yaml
   - resources/node-exporter-ha.yaml
   - resources/node-exporter-jellyfin.yaml
   - resources/node-exporter-k8s-crimson.yaml
