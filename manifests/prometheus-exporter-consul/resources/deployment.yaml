@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-exporter-consul
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus-exporter-consul
+  template:
+    metadata:
+      labels:
+        app: prometheus-exporter-consul
+    spec:
+      containers:
+        - name: prometheus-exporter-consul
+          image: prom/consul-exporter:latest
+          args:
+            - --consul.server=10.0.100.2:8500
+          resources:
+            requests:
+              cpu: 5m
+              memory: 32Mi
+            limits:
+              cpu: 50m
+              memory: 128Mi
+          ports:
+            - name: http
+              containerPort: 9107
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
+              weight: 100

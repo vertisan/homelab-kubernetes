@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: prometheus-exporter-consul
+  labels:
+    app: prometheus-exporter-consul
+spec:
+  selector:
+    app: prometheus-exporter-consul
+  ports:
+    - name: http
+      port: 9107

@@ -1,0 +1,9 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: prometheus-exporter-consul
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: prometheus-exporter-consul
