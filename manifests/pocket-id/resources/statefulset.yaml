@@ -64,7 +64,7 @@ spec:
                 name: config-ldap
             - configMapRef:
                 name: pocket-id
-          image: ghcr.io/pocket-id/pocket-id:v1.7.0
+          image: ghcr.io/pocket-id/pocket-id:v1.10.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -82,11 +82,11 @@ spec:
             initialDelaySeconds: 60
           resources:
             requests:
-              cpu: 5m
+              cpu: 10m
               memory: 32Mi
-            # limits:
-            #   cpu: 20m
-            #   memory: 256Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
           volumeMounts:
             - mountPath: /app/data
               name: pocket-id-data
