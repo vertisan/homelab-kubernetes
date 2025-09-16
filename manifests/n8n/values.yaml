@@ -1,5 +1,21 @@
 fullnameOverride: n8n
 
+affinity: &affinity
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - preference:
+          matchExpressions:
+            - key: topology.kubernetes.io/zone
+              operator: In
+              values:
+                - alpha
+        weight: 100
+
 log:
   level: debug
 
@@ -21,16 +37,18 @@ main:
   resources:
     requests:
       cpu: 100m
-      memory: 256Mi
+      memory: 512Mi
     limits:
-      cpu: 150m
-      memory: 768Mi
+      cpu: 500m
+      memory: 1024Mi
 
   livenessProbe:
     initialDelaySeconds: 60
 
   readinessProbe:
     initialDelaySeconds: 60
+
+  affinity: *affinity
 
 worker:
   mode: queue
@@ -39,7 +57,7 @@ worker:
   autoscaling:
     enabled: true
     minReplicas: 1
-    maxReplicas: 1
+    maxReplicas: 2
 
   waitMainNodeReady:
     enabled: true
@@ -49,25 +67,31 @@ worker:
       cpu: 100m
       memory: 512Mi
     limits:
-      cpu: 200m
-      memory: 1Gi
+      cpu: 1000m
+      memory: 1024Mi
+
+  affinity: *affinity
 
 redis:
   enabled: true
-
-affinity: &affinity
-  nodeAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-      - preference:
-          matchExpressions:
-            - key: node-role.kubernetes.io/control-plane
-              operator: DoesNotExist
-        weight: 100
 
 serviceMonitor:
   enabled: true
   labels:
     prometheus.io/monitor: "true"
+
+  include:
+    defaultMetrics: true
+    cacheMetrics: true
+    messageEventBusMetrics: true
+    workflowIdLabel: true
+    nodeTypeLabel: true
+    credentialTypeLabel: true
+    apiEndpoints: true
+    apiPathLabel: true
+    apiMethodLabel: true
+    apiStatusCodeLabel: true
+    queueMetrics: true
 
 webhook:
   mode: queue
@@ -86,5 +110,7 @@ webhook:
       cpu: 100m
       memory: 128Mi
     limits:
-      cpu: 150m
-      memory: 256Mi
+      cpu: 300m
+      memory: 512Mi
+
+  affinity: *affinity
