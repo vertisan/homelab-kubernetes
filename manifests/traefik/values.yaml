@@ -119,7 +119,7 @@ providers:
 
 logs:
   general:
-    level: DEBUG
+    level: INFO
 
 persistence:
   enabled: true
