@@ -4,6 +4,7 @@ resources:
   - resources/ext-adguard.yaml
   - resources/ext-certwarden.yaml
   - resources/ext-consul.yaml
+  - resources/ext-jellyfin.yaml
   - resources/ext-unifi.yaml
   - resources/ext-vault.yaml
 
