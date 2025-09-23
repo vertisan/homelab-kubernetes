@@ -43,11 +43,19 @@ prometheus:
 
     affinity:
       nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: DoesNotExist
         preferredDuringSchedulingIgnoredDuringExecution:
           - preference:
               matchExpressions:
-                - key: node-role.kubernetes.io/control-plane
-                  operator: DoesNotExist
+                - key: topology.kubernetes.io/zone
+                  operator: In
+                  values:
+                    - alpha
+                    - charlie
             weight: 100
 
     alertingEndpoints:
@@ -70,12 +78,11 @@ prometheus:
 prometheusOperator:
   affinity:
     nodeAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - preference:
-            matchExpressions:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
               - key: node-role.kubernetes.io/control-plane
                 operator: DoesNotExist
-          weight: 100
 
 kubeStateMetrics:
   honorLabels: true
