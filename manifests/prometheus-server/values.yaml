@@ -56,7 +56,6 @@ prometheus:
                   values:
                     - alpha
                     - charlie
-            weight: 100
 
     alertingEndpoints:
       - apiVersion: v2
@@ -83,6 +82,14 @@ prometheusOperator:
           - matchExpressions:
               - key: node-role.kubernetes.io/control-plane
                 operator: DoesNotExist
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - preference:
+            matchExpressions:
+              - key: topology.kubernetes.io/zone
+                operator: In
+                values:
+                  - alpha
+                  - charlie
 
 kubeStateMetrics:
   honorLabels: true
