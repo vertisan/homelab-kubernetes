@@ -13,7 +13,7 @@ affinity: &affinity
             - key: topology.kubernetes.io/zone
               operator: In
               values:
-                - alpha
+                - charlie
         weight: 100
 
 log:
