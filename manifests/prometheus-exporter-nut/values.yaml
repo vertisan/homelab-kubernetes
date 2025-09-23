@@ -56,3 +56,11 @@ env:
 #   #     secretKeyRef:
 #   #       name: nut-credentials
 #   #       key: password
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: DoesNotExist
