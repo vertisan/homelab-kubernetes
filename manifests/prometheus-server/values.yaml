@@ -56,6 +56,7 @@ prometheus:
                   values:
                     - alpha
                     - charlie
+            weight: 100
 
     alertingEndpoints:
       - apiVersion: v2
@@ -90,6 +91,7 @@ prometheusOperator:
                 values:
                   - alpha
                   - charlie
+          weight: 100
 
 kubeStateMetrics:
   honorLabels: true
