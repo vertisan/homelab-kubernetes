@@ -32,7 +32,7 @@ stages:
   variables:
     RENOVATE_PLATFORM: gitlab
     RENOVATE_ENDPOINT: $CI_API_V4_URL
-    LOG_LEVEL: debug
+    LOG_LEVEL: info
     RENOVATE_BASE_BRANCHES: "master"
     RENOVATE_REPOSITORY_CACHE: "enabled"
   rules:
