@@ -1,0 +1,76 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":enablePreCommit"
+  ],
+  "kubernetes": {
+    "fileMatch": [
+      "manifests/.+/resources/.+\\.yaml$"
+    ]
+  },
+  "helm-values": {
+    "fileMatch": [
+      "manifests/.+/values\\.yaml$",
+      "manifests/.+/.+\\.values\\.yaml$"
+    ]
+  },
+  "kustomize": {
+    "enabled": true,
+    "fileMatch": [
+      "manifests/.+/kustomization\\.yaml$"
+    ]
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "^manifests/.+/kustomization\\.yaml$"
+      ],
+      "matchStrings": [
+        "version: (?<currentValue>.*?) # (?<datasource>.*?)\\/(?<depName>.*?)(?:\\?|$)"
+      ],
+      "datasourceTemplate": "{{datasource}}",
+      "depNameTemplate": "{{depName}}"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": [
+        "docker"
+      ],
+      "automerge": false,
+      "automergeType": "branch",
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "matchDatasources": [
+        "helm"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": false,
+      "automergeType": "branch",
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "groupName": "cloudflare packages",
+      "matchPackagePatterns": [
+        "^cloudflare"
+      ]
+    }
+  ],
+  "helmv3": {
+    "fileMatch": [
+      "manifests/.+/kustomization\\.yaml$"
+    ]
+  }
+}

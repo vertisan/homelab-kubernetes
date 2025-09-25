@@ -1,1 +1,1 @@
-# K8s Crimson cluster
+# K8s Crimson

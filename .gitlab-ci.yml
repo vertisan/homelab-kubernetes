@@ -1,0 +1,48 @@
+spec:
+  inputs:
+    job_name:
+      default: renovate
+    stage:
+      default: maintenance
+    image:
+      default: renovate/renovate:41.131-full
+    target:
+      default: $CI_PROJECT_PATH
+    dry_run:
+      default: false
+      type: boolean
+---
+default:
+  tags:
+    - vrs-factory
+
+stages:
+  - maintenance
+
+.renovate:base:
+  image: $[[ inputs.image ]]
+  script:
+    - if [[ "$[[ inputs.dry_run ]]" == "true" ]]; then export RENOVATE_DRY_RUN=full; fi
+    - renovate "$[[ inputs.target ]]"
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}-renovate-cache
+    paths:
+      - tmp/renovate/cache
+      - /tmp/renovate/cache
+  variables:
+    RENOVATE_PLATFORM: gitlab
+    RENOVATE_ENDPOINT: $CI_API_V4_URL
+    LOG_LEVEL: debug
+    RENOVATE_BASE_BRANCHES: "master"
+    RENOVATE_REPOSITORY_CACHE: "enabled"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"
+      allow_failure: true
+    - if: $CI_COMMIT_BRANCH
+      when: manual
+      allow_failure: true
+
+"$[[ inputs.job_name ]]":
+  stage: $[[ inputs.stage ]]
+  extends: [".renovate:base"]
