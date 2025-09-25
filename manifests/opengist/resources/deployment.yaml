@@ -24,7 +24,7 @@ spec:
       serviceAccountName: opengist
       containers:
         - name: opengist
-          image: ghcr.io/thomiceli/opengist:1.9
+          image: ghcr.io/thomiceli/opengist:1.11
           resources:
             requests:
               memory: 32Mi
