@@ -6,7 +6,7 @@ namespace: &namespace kube-state-metrics
 helmCharts:
   - name: kube-state-metrics
     repo: https://prometheus-community.github.io/helm-charts
-    version: 5.36.0
+    version: 6.3.0
     releaseName: kube-state-metrics
     namespace: *namespace
     valuesFile: values.yaml
