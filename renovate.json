@@ -47,7 +47,7 @@
         "minor",
         "patch"
       ],
-      "minimumReleaseAge": "3 days"
+      "minimumReleaseAge": "7 days"
     },
     {
       "matchDatasources": [
@@ -59,7 +59,7 @@
       ],
       "automerge": false,
       "automergeType": "branch",
-      "minimumReleaseAge": "3 days"
+      "minimumReleaseAge": "7 days"
     },
     {
       "groupName": "cloudflare packages",
