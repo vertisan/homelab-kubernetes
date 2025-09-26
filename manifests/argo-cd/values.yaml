@@ -2,13 +2,6 @@ global:
   domain: argo.vrsf.in
   revisionHistoryLimit: 10
 
-  image:
-    repository: vertisan/argocd
-    tag: 1.0.0-rc.0
-
-  # logging:
-  #   format: json
-
   deploymentStrategy:
     type: RollingUpdate
     rollingUpdate:
@@ -17,12 +10,11 @@ global:
 
   affinity: &affinity
     nodeAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        - preference:
-            matchExpressions:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
               - key: node-role.kubernetes.io/control-plane
                 operator: DoesNotExist
-          weight: 100
 
 crds:
   install: true
