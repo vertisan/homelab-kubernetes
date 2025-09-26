@@ -8,7 +8,7 @@ namespace: &namespace traefik-system
 helmCharts:
   - name: traefik
     repo: https://traefik.github.io/charts
-    version: 37.1.1
+    version: 35.4.0
     releaseName: traefik
     namespace: *namespace
     valuesFile: values.yaml
