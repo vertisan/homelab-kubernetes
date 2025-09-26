@@ -7,7 +7,7 @@ metadata:
     app: jellyfin
 subsets:
   - addresses:
-      - ip: 10.0.31.33
+      - ip: 10.0.103.12
     ports:
       - name: metrics
         port: 9100
