@@ -7,27 +7,27 @@
     ":enablePreCommit"
   ],
   "kubernetes": {
-    "fileMatch": [
-      "manifests/.+/resources/.+\\.yaml$"
+    "managerFilePatterns": [
+      "/manifests/.+/resources/.+\\.yaml$/"
     ]
   },
   "helm-values": {
-    "fileMatch": [
-      "manifests/.+/values\\.yaml$",
-      "manifests/.+/.+\\.values\\.yaml$"
+    "managerFilePatterns": [
+      "/manifests/.+/values\\.yaml$/",
+      "/manifests/.+/.+\\.values\\.yaml$/"
     ]
   },
   "kustomize": {
     "enabled": true,
-    "fileMatch": [
-      "manifests/.+/kustomization\\.yaml$"
+    "managerFilePatterns": [
+      "/manifests/.+/kustomization\\.yaml$/"
     ]
   },
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "^manifests/.+/kustomization\\.yaml$"
+      "managerFilePatterns": [
+        "/^manifests/.+/kustomization\\.yaml$/"
       ],
       "matchStrings": [
         "version: (?<currentValue>.*?) # (?<datasource>.*?)\\/(?<depName>.*?)(?:\\?|$)"
@@ -63,14 +63,14 @@
     },
     {
       "groupName": "cloudflare packages",
-      "matchPackagePatterns": [
-        "^cloudflare"
+      "matchPackageNames": [
+        "/^cloudflare/"
       ]
     }
   ],
   "helmv3": {
-    "fileMatch": [
-      "manifests/.+/kustomization\\.yaml$"
+    "managerFilePatterns": [
+      "/manifests/.+/kustomization\\.yaml$/"
     ]
   }
 }
