@@ -73,7 +73,7 @@ prometheus:
       matchLabels:
         prometheus.io/monitor: "true"
 
-    overrideHonorLabels: true
+    overrideHonorLabels: false
 
 prometheusOperator:
   affinity:
@@ -101,6 +101,8 @@ kube-state-metrics:
 
   prometheus:
     monitor:
+      honorLabels: true
+
       metrics:
         honorLabels: true
       http:
