@@ -1,6 +1,6 @@
 image:
   repository: grafana/grafana-enterprise
-  tag: 12.3.0-17782621999-ubuntu
+  tag: 12.3.0-17932099756-ubuntu
 
 podDisruptionBudget:
   maxUnavailable: 50%
