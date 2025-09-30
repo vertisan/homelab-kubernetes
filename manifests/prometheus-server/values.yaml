@@ -113,6 +113,10 @@ kube-state-metrics:
     - namespaces=[*]
     - pods=[*]
 
+kubelet:
+  serviceMonitor:
+    honorLabels: true
+
 alertmanager:
   enabled: false
 
