@@ -1,0 +1,4 @@
+resources:
+  - resources/netalertx.yaml
+
+namespace: prometheus-exporter
