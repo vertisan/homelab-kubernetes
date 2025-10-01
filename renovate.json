@@ -41,16 +41,6 @@
       "matchDatasources": [
         "docker"
       ],
-      "matchPackageNames": [
-        "grafana/grafana-enterprise"
-      ],
-      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-(?<build>\\d+)-ubuntu$",
-      "description": "Special versioning for Grafana Enterprise nightly builds"
-    },
-    {
-      "matchDatasources": [
-        "docker"
-      ],
       "automerge": false,
       "automergeType": "branch",
       "matchUpdateTypes": [
