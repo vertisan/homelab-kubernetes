@@ -52,10 +52,10 @@ main:
 
 worker:
   mode: queue
-  # count: 1
+  count: 1
 
   autoscaling:
-    enabled: true
+    enabled: false
     minReplicas: 1
     maxReplicas: 2
 
