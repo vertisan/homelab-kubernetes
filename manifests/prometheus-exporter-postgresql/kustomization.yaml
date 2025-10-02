@@ -1,4 +1,4 @@
 resources:
-  - resources/netalertx.yaml
+  - resources/patroni.yaml
 
 namespace: prometheus-exporter
