@@ -16,8 +16,3 @@ helmCharts:
     includeCRDs: true
     apiVersions:
       - monitoring.coreos.com/v1
-    valuesInline:
-      redis:
-        image:
-          repository: redis
-          tag: 8.2.1-bookworm
