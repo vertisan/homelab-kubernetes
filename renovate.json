@@ -39,7 +39,7 @@
   "packageRules": [
     {
       "description": "Auto-merge updates",
-      "matchFiles": [
+      "matchFileNames": [
         "manifests/n8n/**",
         "manifests/prometheus-exporter-blackbox/**"
       ],
