@@ -38,6 +38,20 @@
   ],
   "packageRules": [
     {
+      "description": "Auto-merge updates",
+      "matchFiles": [
+        "manifests/n8n/**",
+        "manifests/prometheus-exporter-blackbox/**"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true,
+      "automergeType": "fast-forward",
+      "minimumReleaseAge": "7 days"
+    },
+    {
       "matchDatasources": [
         "docker"
       ],
