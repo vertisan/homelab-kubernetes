@@ -38,18 +38,13 @@
   ],
   "packageRules": [
     {
-      "description": "Auto-merge updates",
+      "description": "Auto-merge updates for selected paths",
       "matchFileNames": [
         "manifests/n8n/**",
-        "manifests/prometheus-exporter-blackbox/**"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
+        "disabled/**"
       ],
       "automerge": true,
-      "automergeType": "fast-forward",
-      "minimumReleaseAge": "7 days"
+      "automergeType": "branch"
     },
     {
       "matchDatasources": [
