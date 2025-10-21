@@ -1,0 +1,62 @@
+backstage:
+  # appConfig:
+  #   backend:
+  #     baseUrl: https://backstage.vrsf.in
+  #     database:
+  #       client: pg
+  #       connection:
+  #         host: ${POSTGRES_HOST}
+  #         port: ${POSTGRES_PORT}
+  #         user: ${POSTGRES_USER}
+  #         password: ${POSTGRES_PASSWORD}
+
+  # image:
+  #   tag: v1.43.3
+
+  pdb:
+    create: true
+    minAvailable: 50%
+
+  resources:
+    requests:
+      cpu: 200m
+      memory: 500Mi
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+
+  extraEnvVarsSecrets:
+    - backstage-config
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+
+  topologySpreadConstraints:
+    - labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: backstage
+          app.kubernetes.io/instance: backstage
+      topologyKey: topology.kubernetes.io/zone
+      maxSkew: 1
+      whenUnsatisfiable: ScheduleAnyway
+    - labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: backstage
+          app.kubernetes.io/instance: backstage
+      topologyKey: kubernetes.io/hostname
+      maxSkew: 1
+      whenUnsatisfiable: ScheduleAnyway
+
+serviceAccount:
+  create: true
+
+metrics:
+  serviceMonitor:
+    enabled: true
+    labels:
+      prometheus.io/monitor: "true"

@@ -1,0 +1,19 @@
+namespace: &namespace backstage
+
+resources:
+  - resources/ingress-route.yaml
+  - resources/namespace.yaml
+  - resources/vso-secrets.yaml
+  - resources/vso.yaml
+
+helmCharts:
+  - releaseName: backstage
+    repo: https://backstage.github.io/charts
+    name: backstage
+    version: 2.6.1
+    namespace: *namespace
+    valuesFile: values.yaml
+    includeCRDs: true
+    # apiVersions:
+    #   - monitoring.coreos.com/v1
+    #   - monitoring.coreos.com/v1/ServiceMonitor
