@@ -7,7 +7,7 @@ namespace: &namespace csi-nfs-system
 helmCharts:
   - name: csi-driver-nfs
     repo: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/refs/heads/master/charts/
-    version: 4.11.0 # https://github.com/kubernetes-csi/csi-driver-nfs/releases
+    version: 4.12.1 # https://github.com/kubernetes-csi/csi-driver-nfs/releases
     releaseName: csi-nfs
     namespace: *namespace
     includeCRDs: true
