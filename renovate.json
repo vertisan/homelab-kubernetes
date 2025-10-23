@@ -40,8 +40,8 @@
     {
       "description": "Auto-merge updates for selected paths",
       "matchFileNames": [
-        "manifests/n8n/**",
-        "disabled/**"
+        "/manifests/n8n/**",
+        "/disabled/**"
       ],
       "automerge": true,
       "automergeType": "branch"
