@@ -2,11 +2,6 @@ image:
   repository: grafana/grafana-enterprise
   tag: 12.2.0
 
-podDisruptionBudget:
-  maxUnavailable: 1
-  apiVersion: policy/v1
-  unhealthyPodEvictionPolicy: AlwaysAllow
-
 resources:
   requests:
     cpu: 100m
@@ -16,12 +11,6 @@ resources:
     memory: 768Mi
 
 replicas: 1
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 3
-  targetCPU: "75"
-  targetMemory: "75"
 
 serviceMonitor:
   enabled: true
