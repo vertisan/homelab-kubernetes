@@ -27,13 +27,14 @@ stages:
   cache:
     key: ${CI_COMMIT_REF_SLUG}-renovate-cache
     paths:
-      - tmp/renovate/cache
-      - /tmp/renovate/cache
+      - $RENOVATE_CACHE_DIR
   variables:
-    RENOVATE_PLATFORM: gitlab
+    LOG_LEVEL: debug
+    RENOVATE_BASE_BRANCHES: $CI_DEFAULT_BRANCH
+    RENOVATE_BASE_DIR: $CI_PROJECT_DIR
+    RENOVATE_CACHE_DIR: $CI_PROJECT_DIR/cache
     RENOVATE_ENDPOINT: $CI_API_V4_URL
-    LOG_LEVEL: info
-    RENOVATE_BASE_BRANCHES: "master"
+    RENOVATE_PLATFORM: gitlab
     RENOVATE_REPOSITORY_CACHE: "enabled"
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
