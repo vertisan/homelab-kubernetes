@@ -38,31 +38,7 @@
   ],
   "packageRules": [
     {
-      "description": "Auto-merge updates for selected paths",
-      "matchFileNames": [
-        "/manifests/n8n/**",
-        "/manifests/gitlab-runner/**",
-        "/disabled/**"
-      ],
-      "automerge": true,
-      "automergeType": "branch",
-      "minimumReleaseAge": "7 days"
-    },
-    {
-      "description": "Auto-merge PATCH updates for selected paths",
-      "matchFileNames": [
-        "/manifests/grafana/**",
-        "/manifests/traefik/**",
-        "/manifests/argo-cd/**"
-      ],
-      "automerge": true,
-      "automergeType": "branch",
-      "matchUpdateTypes": [
-        "patch"
-      ],
-      "minimumReleaseAge": "3 days"
-    },
-    {
+      "description": "Default: disable automerge for docker (but allow overrides)",
       "matchDatasources": [
         "docker"
       ],
@@ -75,6 +51,7 @@
       "minimumReleaseAge": "7 days"
     },
     {
+      "description": "Default: disable automerge for helm (but allow overrides)",
       "matchDatasources": [
         "helm"
       ],
@@ -85,6 +62,31 @@
       "automerge": false,
       "automergeType": "branch",
       "minimumReleaseAge": "7 days"
+    },
+    {
+      "description": "Auto-merge updates for selected paths",
+      "matchFilePatterns": [
+        "manifests/n8n/**",
+        "manifests/gitlab-runner/**",
+        "disabled/**"
+      ],
+      "automerge": true,
+      "automergeType": "branch",
+      "minimumReleaseAge": "7 days"
+    },
+    {
+      "description": "Auto-merge PATCH updates for selected paths",
+      "matchFilePatterns": [
+        "manifests/grafana/**",
+        "manifests/traefik/**",
+        "manifests/argo-cd/**"
+      ],
+      "automerge": true,
+      "automergeType": "branch",
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "minimumReleaseAge": "3 days"
     },
     {
       "groupName": "cloudflare packages",

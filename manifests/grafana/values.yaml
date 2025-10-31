@@ -12,6 +12,9 @@ resources:
 
 replicas: 1
 
+deploymentStrategy:
+  type: Recreate # Fix bug with not rolling the old pod
+
 serviceMonitor:
   enabled: true
   labels:
