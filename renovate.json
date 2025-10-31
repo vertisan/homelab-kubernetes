@@ -65,7 +65,7 @@
     },
     {
       "description": "Auto-merge updates for selected paths",
-      "matchFiles": [
+      "matchFileNames": [
         "manifests/n8n/**",
         "manifests/gitlab-runner/**",
         "disabled/**"
@@ -76,7 +76,7 @@
     },
     {
       "description": "Auto-merge PATCH updates for selected paths",
-      "matchFiles": [
+      "matchFileNames": [
         "manifests/grafana/**",
         "manifests/traefik/**",
         "manifests/argo-cd/**"
