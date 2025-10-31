@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: ext-bazarr
+subsets:
+  - addresses:
+      - ip: 10.0.103.16
+    ports:
+      - name: http
+        port: 6767
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-bazarr
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 6767
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ext-bazarr
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`bazarr.vrsf.in`)
+      kind: Rule
+      services:
+        - name: ext-bazarr
+          port: http
+  tls:
+    certResolver: letsencrypt

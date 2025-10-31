@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: ext-radarr
+subsets:
+  - addresses:
+      - ip: 10.0.103.16
+    ports:
+      - name: http
+        port: 7878
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-radarr
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 7878
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ext-radarr
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`radarr.vrsf.in`)
+      kind: Rule
+      services:
+        - name: ext-radarr
+          port: http
+  tls:
+    certResolver: letsencrypt
