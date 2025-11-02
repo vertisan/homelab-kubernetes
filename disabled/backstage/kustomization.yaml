@@ -10,7 +10,7 @@ helmCharts:
   - releaseName: backstage
     repo: https://backstage.github.io/charts
     name: backstage
-    version: 2.6.1
+    version: 2.6.2
     namespace: *namespace
     valuesFile: values.yaml
     includeCRDs: true
