@@ -68,6 +68,7 @@
       "matchFileNames": [
         "manifests/n8n/**",
         "manifests/gitlab-runner/**",
+        "manifests/cloudflare-vrsfactory/**",
         "disabled/**"
       ],
       "automerge": true,
