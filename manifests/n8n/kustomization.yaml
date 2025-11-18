@@ -9,7 +9,7 @@ namespace: &namespace n8n
 helmCharts:
   - name: n8n
     repo: https://community-charts.github.io/helm-charts
-    version: 1.16.0
+    version: 1.16.1
     releaseName: n8n
     namespace: *namespace
     valuesFile: values.yaml
