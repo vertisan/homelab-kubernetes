@@ -5,6 +5,7 @@ resources:
   - resources/ext-certwarden.yaml
   - resources/ext-consul.yaml
   - resources/ext-jellyfin.yaml
+  - resources/ext-jellyfin-lxc.yaml
   - resources/ext-servarr-bazarr.yaml
   - resources/ext-servarr-prowlarr.yaml
   - resources/ext-servarr-radarr.yaml

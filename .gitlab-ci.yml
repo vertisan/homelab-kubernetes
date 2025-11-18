@@ -15,6 +15,7 @@ spec:
 default:
   tags:
     - vrs-factory
+    - linux
 
 stages:
   - maintenance
