@@ -93,25 +93,25 @@ prometheusOperator:
                   - charlie
           weight: 100
 
-kubeStateMetrics:
-  honorLabels: true
+# kubeStateMetrics:
+#   honorLabels: true
 
-kube-state-metrics:
-  honorLabels: true
+# kube-state-metrics:
+#   honorLabels: true
 
-  prometheus:
-    monitor:
-      honorLabels: true
+#   prometheus:
+#     monitor:
+#       honorLabels: true
 
-      metrics:
-        honorLabels: true
-      http:
-        honorLabels: true
+#       metrics:
+#         honorLabels: true
+#       http:
+#         honorLabels: true
 
-  metricLabelsAllowlist:
-    - nodes=[*]
-    - namespaces=[*]
-    - pods=[*]
+#   metricLabelsAllowlist:
+#     - nodes=[*]
+#     - namespaces=[*]
+#     - pods=[*]
 
 kubelet:
   serviceMonitor:
