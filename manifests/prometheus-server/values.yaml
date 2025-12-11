@@ -96,13 +96,15 @@ prometheusOperator:
 # kubeStateMetrics:
 #   honorLabels: true
 
-# kube-state-metrics:
-#   honorLabels: true
+kube-state-metrics:
+  #   honorLabels: true
 
-#   prometheus:
-#     monitor:
+  prometheus:
+    monitor:
+      additionalLabels:
+        prometheus.io/monitor: "true"
+
 #       honorLabels: true
-
 #       metrics:
 #         honorLabels: true
 #       http:
