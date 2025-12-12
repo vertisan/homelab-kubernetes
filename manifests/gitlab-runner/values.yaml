@@ -26,7 +26,11 @@ runners:
     secretName: s3access
 
   config: |
+    concurrent = 20
+
     [[runners]]
+      request_concurrency = 5
+
       [runners.kubernetes]
         namespace = "{{.Release.Namespace}}"
         image = "ubuntu:24.04"
