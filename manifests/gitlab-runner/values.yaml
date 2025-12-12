@@ -31,6 +31,7 @@ runners:
         namespace = "{{.Release.Namespace}}"
         image = "ubuntu:24.04"
         privileged = true
+        wait_for_services_timeout = 60
 
         [[runners.kubernetes.volumes.host_path]]
           name = "buildah"
