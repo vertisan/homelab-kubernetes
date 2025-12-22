@@ -1,6 +1,6 @@
 image:
   repository: grafana/grafana-enterprise
-  tag: 12.3.0
+  tag: 12.3.1
 
 resources:
   requests:
