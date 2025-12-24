@@ -1,0 +1,31 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dependency-track
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`dependency-track.vrsf.in`) && (PathPrefix(`/api`) || PathPrefix(`/health`))
+      priority: 20
+      services:
+        - name: dependency-track-api-server
+          port: 8080
+    # # Health endpoint - higher priority to match before root
+    # - kind: Rule
+    #   match: Host(`dependency-track.vrsf.in`) && PathPrefix(`/health`)
+    #   priority: 20
+    #   services:
+    #     - name: dependency-track-api-server
+    #       port: 8080
+    - kind: Rule
+      match: Host(`dependency-track.vrsf.in`)
+      priority: 10
+      services:
+        - name: dependency-track-frontend
+          port: 8080
+  tls:
+    certResolver: letsencrypt

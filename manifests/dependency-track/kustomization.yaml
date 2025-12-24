@@ -1,0 +1,16 @@
+resources:
+  - resources/namespace.yaml
+  - resources/ingress-route.yaml
+
+namespace: &ns dependency-track
+
+helmCharts:
+  - name: dependency-track
+    releaseName: dependency-track
+    repo: https://dependencytrack.github.io/helm-charts
+    version: 0.39.0
+    namespace: *ns
+    valuesFile: values.yaml
+    includeCRDs: true
+    apiVersions:
+      - monitoring.coreos.com/v1
