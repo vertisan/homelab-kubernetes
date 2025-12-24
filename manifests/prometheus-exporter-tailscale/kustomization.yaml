@@ -1,0 +1,16 @@
+resources:
+  - resources/vso.yaml
+  - resources/vso-secrets.yaml
+
+namespace: &namespace prometheus-exporter
+
+helmGlobals:
+  chartHome: /Users/vertisan/Workspace/github-com/vertisan/tailscale-exporter/deploy/charts/
+
+helmCharts:
+  - name: tailscale-exporter
+    # repo: https://helm.vrs-factory.dev
+    # version: 0.5.3 # https://github.com/vertisan/helm-charts/releases
+    releaseName: prometheus-exporter-tailscale
+    namespace: *namespace
+    valuesFile: values.yaml
