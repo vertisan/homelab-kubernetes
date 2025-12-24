@@ -1,0 +1,17 @@
+namespace: &namespace portainer
+
+resources:
+  - resources/namespace.yaml
+  - resources/ingress-route.yaml
+
+helmCharts:
+  - releaseName: portainer
+    repo: https://portainer.github.io/k8s
+    name: portainer
+    version: 2.33.6
+    namespace: *namespace
+    valuesFile: values.yaml
+    includeCRDs: true
+    apiVersions:
+      - monitoring.coreos.com/v1
+      - monitoring.coreos.com/v1/ServiceMonitor
