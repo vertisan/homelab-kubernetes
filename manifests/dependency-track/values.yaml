@@ -3,7 +3,6 @@ common:
 
   secretKey:
     createSecret: true
-    # existingSecret:
 
 apiServer:
   resources:
@@ -16,26 +15,27 @@ apiServer:
 
   serviceMonitor:
     enabled: true
+    namespace: dependency-track
     labels:
       prometheus.io/monitor: "true"
 
   extraEnv:
     - name: EXTRA_JAVA_OPTIONS
       value: "-Xmx2g"
-      # value: "-Xmx2g -DdependencyTrack.logging.level=DEBUG"
-    # - name: LOGGING_LEVEL
-    #   value: DEBUG
     - name: SYSTEM_REQUIREMENT_CHECK_ENABLED
       value: "false"
-    #
+    - name: ALPINE_OIDC_ISSUER
+      valueFrom:
+        secretKeyRef:
+          name: oidc-config
+          key: OIDC_ISSUER
+    - name: ALPINE_OIDC_CLIENT_ID
+      valueFrom:
+        secretKeyRef:
+          name: oidc-config
+          key: OIDC_CLIENT_ID
     - name: ALPINE_OIDC_ENABLED
       value: "true"
-    - name: ALPINE_OIDC_ISSUER
-      value: https://id.vrs-factory.dev
-    - name: ALPINE_OIDC_CLIENT_ID
-      value: 4ccb7521-06f8-4006-9710-65a54eee445c
-    - name: ALPINE_OIDC_CLIENT_SECRET
-      value: YlEgsFYQb5irk6wOgSKxLWLchmjIvgL5
     - name: ALPINE_OIDC_USERNAME_CLAIM
       value: email
     - name: ALPINE_OIDC_TEAMS_CLAIM
@@ -49,10 +49,6 @@ apiServer:
     enabled: true
 
 frontend:
-  extraEnv:
-    - name: OIDC_ISSUER
-      value: https://id.vrs-factory.dev
-    - name: OIDC_CLIENT_ID
-      value: 4ccb7521-06f8-4006-9710-65a54eee445c
-    - name: OIDC_SCOPE
-      value: "openid profile email groups"
+  extraEnvFrom:
+    - secretRef:
+        name: oidc-config

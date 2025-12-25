@@ -1,6 +1,8 @@
 resources:
   - resources/namespace.yaml
   - resources/ingress-route.yaml
+  - resources/vso.yaml
+  - resources/vso-secrets.yaml
 
 namespace: &ns dependency-track
 
