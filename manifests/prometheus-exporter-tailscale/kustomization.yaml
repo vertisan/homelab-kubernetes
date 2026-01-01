@@ -5,13 +5,10 @@ resources:
 namespace: &namespace prometheus-exporter
 
 helmGlobals:
-  # chartHome: ../../charts/
-  chartHome: charts/
+  chartHome: ../../charts/
 
 helmCharts:
   - name: tailscale-exporter
-    # repo: https://helm.vrs-factory.dev
-    # version: 0.5.3 # https://github.com/vertisan/helm-charts/releases
     releaseName: prometheus-exporter-tailscale
     namespace: *namespace
     valuesFile: values.yaml
