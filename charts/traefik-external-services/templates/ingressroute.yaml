@@ -1,0 +1,27 @@
+{{- range $name, $service := .Values.externalServices }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ext-{{ $name }}
+  namespace: {{ $.Values.namespace | default "traefik-external" }}
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  entryPoints:
+    - {{ include "traefik-external-services.entryPoint" $service }}
+  routes:
+    - match: Host(`{{ $service.hostname }}`)
+      kind: Rule
+      services:
+        - name: ext-{{ $name }}
+          namespace: {{ $.Values.namespace | default "traefik-external" }}
+          {{- if eq $service.protocol "https" }}
+          port: 443
+          serversTransport: {{ if $service.insecureSkipVerify }}insecure-skip-transport{{ end }}
+          {{- else }}
+          port: {{ $service.port }}
+          {{- end }}
+  tls:
+    certResolver: letsencrypt
+{{- end }}

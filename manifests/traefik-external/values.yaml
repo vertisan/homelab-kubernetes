@@ -1,0 +1,89 @@
+namespace: traefik-external
+
+externalServices:
+  adguard:
+    hostname: adguard.vrsf.in
+    ip: 10.0.100.53
+    port: 443
+    targetPort: 443
+    protocol: https
+    insecureSkipVerify: true
+
+  certwarden:
+    hostname: certwarden.vrsf.in
+    ip: 10.0.103.10
+    port: 80
+    targetPort: 4050
+    protocol: http
+
+  consul:
+    hostname: consul.vrsf.in
+    ip: 10.0.100.2
+    port: 80
+    targetPort: 8500
+    protocol: http
+
+  home-assistant:
+    hostname: ha.vrsf.in
+    ip: 10.0.103.11
+    port: 80
+    targetPort: 8123
+    protocol: http
+
+  jellyfin:
+    hostname: jellyfin.vrsf.in
+    ip: 10.0.103.12
+    port: 80
+    targetPort: 8096
+    protocol: http
+
+  jellyfin-lxc:
+    hostname: jellyfin-lxc.vrsf.in
+    ip: 10.0.103.14
+    port: 80
+    targetPort: 8096
+    protocol: http
+
+  bazarr:
+    hostname: bazarr.vrsf.in
+    ip: 10.0.103.16
+    port: 80
+    targetPort: 6767
+    protocol: http
+
+  prowlarr:
+    hostname: prowlarr.vrsf.in
+    ip: 10.0.103.16
+    port: 80
+    targetPort: 9696
+    protocol: http
+
+  radarr:
+    hostname: radarr.vrsf.in
+    ip: 10.0.103.16
+    port: 80
+    targetPort: 7878
+    protocol: http
+
+  sonarr:
+    hostname: sonarr.vrsf.in
+    ip: 10.0.103.16
+    port: 80
+    targetPort: 8989
+    protocol: http
+
+  unifi:
+    hostname: unifi.vrsf.in
+    ip: 10.0.103.13
+    port: 443
+    targetPort: 8443
+    protocol: https
+    insecureSkipVerify: true
+
+  vault:
+    hostname: vlt.vrsf.in
+    ip: 10.0.100.5
+    port: 443
+    targetPort: 8200
+    protocol: https
+    insecureSkipVerify: true

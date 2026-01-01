@@ -1,0 +1,13 @@
+{{- range $name, $service := .Values.externalServices }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ext-{{ $name }}
+  namespace: {{ $.Values.namespace | default "traefik-external" }}
+spec:
+  ports:
+    - name: {{ include "traefik-external-services.portName" $service }}
+      port: {{ if eq $service.protocol "https" }}443{{ else }}80{{ end }}
+      targetPort: {{ $service.targetPort }}
+{{- end }}

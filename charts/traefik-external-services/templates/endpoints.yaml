@@ -1,0 +1,14 @@
+{{- range $name, $service := .Values.externalServices }}
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: ext-{{ $name }}
+  namespace: {{ $.Values.namespace | default "traefik-external" }}
+subsets:
+  - addresses:
+      - ip: {{ $service.ip }}
+    ports:
+      - name: {{ include "traefik-external-services.portName" $service }}
+        port: {{ $service.targetPort }}
+{{- end }}

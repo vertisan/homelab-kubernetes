@@ -1,17 +1,10 @@
-resources:
-  - resources/namespace.yaml
-  - resources/common.yaml
-  - resources/ext-adguard.yaml
-  - resources/ext-certwarden.yaml
-  - resources/ext-consul.yaml
-  - resources/ext-home-assistant.yaml
-  - resources/ext-jellyfin.yaml
-  - resources/ext-jellyfin-lxc.yaml
-  - resources/ext-servarr-bazarr.yaml
-  - resources/ext-servarr-prowlarr.yaml
-  - resources/ext-servarr-radarr.yaml
-  - resources/ext-servarr-sonarr.yaml
-  - resources/ext-unifi.yaml
-  - resources/ext-vault.yaml
+namespace: traefik-system
 
-namespace: traefik-external
+helmGlobals:
+  chartHome: ../../charts/
+
+helmCharts:
+  - name: traefik-external-services
+    releaseName: traefik-external
+    namespace: traefik-external
+    valuesFile: values.yaml
