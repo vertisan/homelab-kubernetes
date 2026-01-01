@@ -1,4 +1,4 @@
-namespace: traefik-system
+namespace: traefik-external
 
 helmGlobals:
   chartHome: ../../charts/

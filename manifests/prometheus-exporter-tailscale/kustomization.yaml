@@ -5,7 +5,8 @@ resources:
 namespace: &namespace prometheus-exporter
 
 helmGlobals:
-  chartHome: /Users/vertisan/Workspace/github-com/vertisan/tailscale-exporter/deploy/charts/
+  # chartHome: ../../charts/
+  chartHome: charts/
 
 helmCharts:
   - name: tailscale-exporter
